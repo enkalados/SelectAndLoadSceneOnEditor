@@ -10,7 +10,7 @@ class SceneSelector : EditorToolbarDropdownToggle
 {
     public const string id = "SceneLoaderOverlay/SceneSelector";
 
-    static int colorIndex = 0;
+    static int sceneIndex = 0;
     public SceneSelector()
     {
         text = "Select Scene";
@@ -23,16 +23,16 @@ class SceneSelector : EditorToolbarDropdownToggle
 
         SceneView.duringSceneGui += LoadSelectedScene;
     }
-    int preColorIndex = -1;
+    int preSceneIndex = -1;
     void LoadSelectedScene(SceneView view)
     {
-        if (colorIndex == preColorIndex)
+        if (sceneIndex == preSceneIndex)
         {
             return;
         }
-        preColorIndex = colorIndex;
+        preSceneIndex = sceneIndex;
 
-        EditorSceneManager.OpenScene(UnityEngine.SceneManagement.SceneUtility.GetScenePathByBuildIndex(colorIndex));
+        EditorSceneManager.OpenScene(UnityEngine.SceneManagement.SceneUtility.GetScenePathByBuildIndex(sceneIndex));
     }
 
     // When the dropdown button is clicked, this method will create a popup menu at the mouse cursor position.
@@ -42,9 +42,9 @@ class SceneSelector : EditorToolbarDropdownToggle
         var menu = new GenericMenu();
         // Add your scenes if you want to show in Overlay
         //Scene Index in build settings
-        menu.AddItem(new GUIContent(System.IO.Path.GetFileNameWithoutExtension(UnityEngine.SceneManagement.SceneUtility.GetScenePathByBuildIndex(0))), colorIndex == 0, () => colorIndex = 0);
-        menu.AddItem(new GUIContent(System.IO.Path.GetFileNameWithoutExtension(UnityEngine.SceneManagement.SceneUtility.GetScenePathByBuildIndex(1))), colorIndex == 1, () => colorIndex = 1);
-        menu.AddItem(new GUIContent(System.IO.Path.GetFileNameWithoutExtension(UnityEngine.SceneManagement.SceneUtility.GetScenePathByBuildIndex(2))), colorIndex == 2, () => colorIndex = 2);
+        menu.AddItem(new GUIContent(System.IO.Path.GetFileNameWithoutExtension(UnityEngine.SceneManagement.SceneUtility.GetScenePathByBuildIndex(0))), sceneIndex == 0, () => sceneIndex = 0);
+        menu.AddItem(new GUIContent(System.IO.Path.GetFileNameWithoutExtension(UnityEngine.SceneManagement.SceneUtility.GetScenePathByBuildIndex(1))), sceneIndex == 1, () => sceneIndex = 1);
+        menu.AddItem(new GUIContent(System.IO.Path.GetFileNameWithoutExtension(UnityEngine.SceneManagement.SceneUtility.GetScenePathByBuildIndex(2))), sceneIndex == 2, () => sceneIndex = 2);
         menu.ShowAsContext();
     }
 }
@@ -52,7 +52,7 @@ class SceneSelector : EditorToolbarDropdownToggle
 
 // All Overlays must be tagged with the OverlayAttribute
 
-[Overlay(typeof(SceneView), "SceneLoader Overlay")]
+[Overlay(typeof(SceneView), "Scene Loader Overlay")]
 
 // Toolbar Overlays must inherit `ToolbarOverlay` and implement a parameter-less constructor. The contents of a toolbar are populated with string IDs, which are passed to the base constructor. IDs are defined by EditorToolbarElementAttribute.
 [Icon("Assets/[GAME]/Scripts/Editor/Icon/SceneControllerIcon.png")]
